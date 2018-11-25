@@ -11,7 +11,6 @@ import (
 	"time"
 )
 
-
 var root = ""
 
 func getHash(path string) string {
@@ -41,8 +40,7 @@ func deduplicate() []string {
 			if len(tempMap) == l {
 				result = append(result, path)
 				log.Println(path)
-				writer.WriteString(path)
-				writer.WriteString("\n")
+				writer.WriteString(path + "\r\n")
 			}
 		}
 		return err
@@ -51,24 +49,10 @@ func deduplicate() []string {
 	return result
 }
 
-func test() {
-	// getHash("helloworld")
-	// fmt.Println(getHash("helloworld"))
-	// fmt.Println(filepath.Ext(root))
-	f, _ := os.OpenFile("test.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
-	defer f.Close()
-	writer := bufio.NewWriter(f)
-	writer.WriteString("hello")
-	writer.WriteString("hello")
-	writer.Flush()
-
-}
-
 func main() {
 	start := time.Now()
 	result := deduplicate()
 	log.Println("发现重复文件共：", len(result), "个")
-	// test()
 	end := time.Now()
 	log.Println(end.Sub(start))
 }
